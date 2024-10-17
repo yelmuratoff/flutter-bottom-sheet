@@ -498,15 +498,12 @@ class _ContentState extends State<_Content> {
         type: MaterialType.transparency,
         child: DecoratedBox(
           decoration: widget.decoration ?? const BoxDecoration(),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              key: _contentKey,
-              child: widget.builder!(
-                context,
-                widget.scrollController,
-                widget.currentExtent,
-              ),
+          child: SizedBox(
+            key: _contentKey,
+            child: widget.builder!(
+              context,
+              widget.scrollController,
+              widget.currentExtent,
             ),
           ),
         ),
