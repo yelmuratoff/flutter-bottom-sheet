@@ -16,6 +16,7 @@
 
 import 'package:example/bottom_sheet_based_on_content_height.dart';
 import 'package:example/standard_bottom_sheet_example.dart';
+import 'package:example/with_navbar.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -55,13 +56,22 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Column(
           children: [
-            TabBar(
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ScaffoldNavbarPage()),
+                );
+              },
+              child: const Text('Go to Scaffold with Navbar'),
+            ),
+            const TabBar(
               labelColor: Colors.lightBlueAccent,
               tabs: [
                 Text(
@@ -82,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
-            Expanded(
+            const Expanded(
               child: TabBarView(
                 children: [
                   StandardBottomSheetExample(),

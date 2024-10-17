@@ -46,8 +46,7 @@ typedef FlexibleDraggableScrollableHeaderWidgetBuilder = Widget Function(
 /// and [bottomSheetOffset] for determining the position of the BottomSheet
 /// relative to the upper border of the screen.
 /// [bottomSheetOffset] - fractional value of offset.
-typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate
-    Function(
+typedef FlexibleDraggableScrollableWidgetBodyBuilder = SliverChildDelegate Function(
   BuildContext context,
   double bottomSheetOffset,
 );
@@ -203,8 +202,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
   @override
   void initState() {
     super.initState();
-    _controller =
-        widget.draggableScrollableController ?? DraggableScrollableController();
+    _controller = widget.draggableScrollableController ?? DraggableScrollableController();
     _widgetBinding = WidgetsBinding.instance;
     widget.animationController?.addStatusListener(_animationStatusListener);
   }
@@ -250,8 +248,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
       final widgetOffset = FocusManager.instance.primaryFocus!.offset.dy;
       final screenHeight = MediaQuery.sizeOf(context).height;
 
-      final targetWidgetOffset =
-          screenHeight - keyboardHeight - widgetHeight - 20;
+      final targetWidgetOffset = screenHeight - keyboardHeight - widgetHeight - 20;
       final valueToScroll = widgetOffset - targetWidgetOffset;
       final currentOffset = controller.offset;
       if (valueToScroll > 0) {
@@ -277,8 +274,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
   // Method that listens for changing AnimationStatus, to track the closing of
   // the bottom sheet by clicking above it.
   void _animationStatusListener(AnimationStatus status) {
-    if (status == AnimationStatus.reverse ||
-        status == AnimationStatus.dismissed) {
+    if (status == AnimationStatus.reverse || status == AnimationStatus.dismissed) {
       _isClosing = true;
     }
   }
@@ -287,8 +283,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
     if (widget.isCollapsible) {
       widget.onDismiss?.call();
       Navigator.maybePop(context);
-      WidgetsBinding.instance
-          .addPostFrameCallback((_) => widget.route?.changedInternalState());
+      WidgetsBinding.instance.addPostFrameCallback((_) => widget.route?.changedInternalState());
     }
   }
 
@@ -326,18 +321,13 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomSheetThemeBackground =
-        Theme.of(context).bottomSheetTheme.backgroundColor;
-    final colorSchemeBackground = Theme.of(context).colorScheme.background;
+    final bottomSheetThemeBackground = Theme.of(context).bottomSheetTheme.backgroundColor;
+    final colorSchemeBackground = Theme.of(context).colorScheme.surface;
 
-    final bottomSheetColor = widget.bottomSheetColor ??
-        bottomSheetThemeBackground ??
-        colorSchemeBackground;
+    final bottomSheetColor = widget.bottomSheetColor ?? bottomSheetThemeBackground ?? colorSchemeBackground;
     final contentDecoration = widget.decoration ??
         BoxDecoration(
-          color: widget.bottomSheetColor ??
-              bottomSheetThemeBackground ??
-              colorSchemeBackground,
+          color: widget.bottomSheetColor ?? bottomSheetThemeBackground ?? colorSchemeBackground,
         );
 
     final behaviorScroll = _getScrollBehaviorInWeb();
@@ -385,9 +375,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
               type: MaterialType.transparency,
               color: bottomSheetColor,
               borderRadius: widget.bottomSheetBorderRadius,
-              clipBehavior: widget.bottomSheetBorderRadius != null
-                  ? Clip.antiAlias
-                  : Clip.none,
+              clipBehavior: widget.bottomSheetBorderRadius != null ? Clip.antiAlias : Clip.none,
               child: _RegisterScaffold(
                 useRootScaffold: widget.useRootScaffold,
                 backgroundColor: bottomSheetColor,
@@ -398,15 +386,12 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
                   headerBuilder: widget.headerBuilder,
                   minHeaderHeight: widget.minHeaderHeight,
                   maxHeaderHeight: widget.maxHeaderHeight,
-                  currentExtent: _controller.isAttached
-                      ? _controller.size
-                      : widget.initHeight,
+                  currentExtent: _controller.isAttached ? _controller.size : widget.initHeight,
                   scrollController: controller,
                   cacheExtent: _calculateCacheExtent(
                     MediaQuery.viewInsetsOf(context).bottom,
                   ),
-                  getContentHeight:
-                      !widget.isExpand ? _changeInitAndMaxHeight : null,
+                  getContentHeight: !widget.isExpand ? _changeInitAndMaxHeight : null,
                 ),
               ),
             ),
@@ -415,9 +400,7 @@ class _FlexibleBottomSheetState<T> extends State<FlexibleBottomSheet<T>> {
       ),
     );
 
-    return behaviorScroll == null
-        ? bottomSheet
-        : ScrollConfiguration(behavior: behaviorScroll, child: bottomSheet);
+    return behaviorScroll == null ? bottomSheet : ScrollConfiguration(behavior: behaviorScroll, child: bottomSheet);
   }
 
   MaterialScrollBehavior? _getScrollBehaviorInWeb() {
@@ -501,8 +484,7 @@ class _ContentState extends State<_Content> {
     if (widget.getContentHeight != null) {
       WidgetsBinding.instance.addPostFrameCallback(
         (timeStamp) {
-          final renderContent =
-              _contentKey.currentContext!.findRenderObject()! as RenderBox;
+          final renderContent = _contentKey.currentContext!.findRenderObject()! as RenderBox;
           widget.getContentHeight!(renderContent.size.height);
         },
       );
@@ -516,12 +498,15 @@ class _ContentState extends State<_Content> {
         type: MaterialType.transparency,
         child: DecoratedBox(
           decoration: widget.decoration ?? const BoxDecoration(),
-          child: SizedBox(
-            key: _contentKey,
-            child: widget.builder!(
-              context,
-              widget.scrollController,
-              widget.currentExtent,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              key: _contentKey,
+              child: widget.builder!(
+                context,
+                widget.scrollController,
+                widget.currentExtent,
+              ),
             ),
           ),
         ),
